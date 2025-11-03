@@ -43,6 +43,11 @@ The main files that can be used for reference are below
         ))
 ```
 
+## Some Findings
+- Using metadata helps vector search sepecially when Hybrid search engines are used by products like qdrant. docling has an option to add metadata to the points to be upserted. flowise document chunking and upsert by default adds metadata to the vector database.
+- In one experiment I did, not adding metadata to the docling points didn't make any difference in search quality, but needs to be tested with a large document to see if this will make a difference.
+- I used llama3.2 model to RAG to ensure that the LLM training data is not used and docling without overlap did produce good quality outputs which were same with or without metadata for the 5 documents in this repository. 
+
 Hope this helps.
 
 > **PS:** I will create a github gist on this github account to share ways to selfhost the following apps locally and use a zero trust vpn tool to help you personally access it from any where over the internet using a secure tunnel
