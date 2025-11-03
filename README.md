@@ -45,9 +45,9 @@ The main files that can be used for reference are below
 
 Hope this helps.
 
-PS: I will create a github gist on this github account to share ways to selfhost the following apps locally and use a zero trust vpn tool to help you personally access it from any where over the internet using a secure tunnel
-- n8n
-- flowise
-- ollama
-- qdrant
-- docling serve
+> **PS:** I will create a github gist on this github account to share ways to selfhost the following apps locally and use a zero trust vpn tool to help you personally access it from any where over the internet using a secure tunnel
+> - n8n
+> - flowise
+> - ollama
+> - qdrant
+> - docling server
