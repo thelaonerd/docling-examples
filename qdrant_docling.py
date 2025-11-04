@@ -25,7 +25,7 @@ class Config:
         self.qdrant_api_key = os.getenv("QDRANT_API_KEY")
         self.ollama_host = os.getenv("OLLAMA_HOST")
         self.embedding_model = "embeddinggemma:latest"
-        self.collection_name = "capstone_docling"
+        self.collection_name = "capstone_docling_gpt_oss"
 
         missing = [k for k, v in self.__dict__.items() if v is None]
         if missing:
@@ -62,7 +62,7 @@ def _process_documents(
     qclient: QdrantClient,
     oclient: ollama.Client,
     file_paths: Iterable[Path],
-    collection: str,
+    cfg: Config
 ) -> None:
     """
     Convert Markdown files → Document → chunks → embeddings → upsert.
@@ -72,6 +72,9 @@ def _process_documents(
     documents = [
         doc_convertor.convert(source=str(p)).document for p in file_paths
     ]
+
+    embedding_model = cfg.embedding_model
+    collection = cfg.collection_name
 
     # 4.2  Chunk each Document
     chunker = HybridChunker()
@@ -89,7 +92,7 @@ def _process_documents(
     vectors: List[List[float]] = []
     for text in texts:
         try:
-            resp = oclient.embeddings(model=cfg.embedding_model, prompt=text)
+            resp = oclient.embeddings(model=embedding_model, prompt=text)
             vectors.append(resp["embedding"])
         except Exception as exc:  # pragma: no cover
             log.error("Embedding failed for chunk: %s – %s", text[:30], exc)
@@ -144,7 +147,8 @@ def main() -> None:
         Path("./scratch/2501.17887v1.md"),
     ]
 
-    _process_documents(qclient, oclient, file_paths, cfg.collection_name)
+    _process_documents(qclient, oclient, file_paths,
+                       cfg)
 
 
 if __name__ == "__main__":
