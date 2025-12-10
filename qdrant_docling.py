@@ -22,10 +22,10 @@ class Config:
     def __init__(self) -> None:
         load_dotenv()  # Load from .env file if present
         self.qdrant_host = os.getenv("QDRANT_HOST")
-        self.qdrant_api_key = os.getenv("QDRANT_API_KEY")
+        self.qdrant_api_key = ""
         self.ollama_host = os.getenv("OLLAMA_HOST")
         self.embedding_model = "embeddinggemma:latest"
-        self.collection_name = "capstone_docling_gpt_oss"
+        self.collection_name = "capstone_docling"
 
         missing = [k for k, v in self.__dict__.items() if v is None]
         if missing:

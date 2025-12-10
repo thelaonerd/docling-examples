@@ -1,7 +1,6 @@
 from sitemap import get_sitemap_urls
 
 from docling.document_converter import DocumentConverter
-from docling.datamodel.base_models import InputFormat
 from docling_core.transforms.chunker.hybrid_chunker import HybridChunker
 
 from qdrant_client import QdrantClient, models
@@ -16,7 +15,7 @@ import uuid
 load_dotenv()
 
 QDRANT_HOST = os.getenv("QDRANT_HOST")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+QDRANT_API_KEY = None
 OLLAMA_HOST = os.getenv("OLLAMA_HOST")
 EMBEDDING_MODEL = "embeddinggemma:latest"
 QDRANT_COLLECTION = "capstone_docling_site"

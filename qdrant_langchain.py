@@ -11,11 +11,11 @@ import uuid
 load_dotenv()
 
 QDRANT_HOST = os.getenv("QDRANT_HOST")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+QDRANT_API_KEY = None
 OLLAMA_HOST = os.getenv("OLLAMA_HOST")
 OLLAMA_EMBEDDING_MODEL = "embeddinggemma:latest"
 OLLAMA_GEN_LLM_MODEL = "llama3.2:latest"
-QDRANT_COLLECTION = "capstone_collection"
+QDRANT_COLLECTION = "capstone_langchain"
 
 
 def main():
@@ -25,16 +25,16 @@ def main():
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,  # Example chunk size
         chunk_overlap=200,  # Example overlap
-        separators=[ "\n", " "]
+        separators=["\n", " "]
     )
 
     file_list = [
-                "2203.01017v2.md",
-                "2206.01062.md",
-                "2305.03393v1.md",
-                "2408.09869v5.md",
-                "2501.17887v1.md"
-                 ]
+        "2203.01017v2.md",
+        "2206.01062.md",
+        "2305.03393v1.md",
+        "2408.09869v5.md",
+        "2501.17887v1.md"
+    ]
 
     file_texts = []
     for file in file_list:
@@ -49,7 +49,8 @@ def main():
     for chunks in file_chunks:
         vectors = []
         for chunk in chunks:
-            response = oclient.embeddings(model=OLLAMA_EMBEDDING_MODEL,prompt=chunk)
+            response = oclient.embeddings(
+                model=OLLAMA_EMBEDDING_MODEL, prompt=chunk)
             vectors.append(response["embedding"])
         file_vectors.append(vectors)
 
@@ -68,7 +69,6 @@ def main():
                     "metadata": file_name,
                 },
             ))
-
 
     if not qclient.collection_exists(QDRANT_COLLECTION):
         qclient.create_collection(

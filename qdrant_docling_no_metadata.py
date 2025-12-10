@@ -14,7 +14,7 @@ import uuid
 load_dotenv()
 
 QDRANT_HOST = os.getenv("QDRANT_HOST")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+QDRANT_API_KEY = None
 OLLAMA_HOST = os.getenv("OLLAMA_HOST")
 EMBEDDING_MODEL = "embeddinggemma:latest"
 QDRANT_COLLECTION = "capstone_docling_no_metdata"
